@@ -1,0 +1,31 @@
+ingest_task:
+  description: >
+    Use the tool ingest_employee_files with source_folder="{source_folder}" and employee_id="{employee_id}".
+    Ensure all files belonging to the provided employee_id are processed accurately. 
+  expected_output: >
+    Tool result JSON with processed file counts.
+  agent: ingestor
+
+classify_documents_task:
+  description: >
+    Use the tool classify_documents with employee_id="{employee_id}".
+    Always classify documents based on the given employee_id context.
+  expected_output: >
+    Document classification results.
+  agent: classifier
+
+extract_data_task:
+  description: >
+    Use the tool extract_structured_data_from_images with employee_id="{employee_id}".
+    The tool performs a 3-step extraction process:
+    1. OCR text extraction from all documents using Nanonets OCR
+    2. Markdown summary generation from extracted text using gpt-oss-20b
+    3. Flexible JSON structure generation from markdown using Qwen2.5-VL-7B-Instruct
+    The agent must call the vision extraction tool and let it complete all three steps.
+  expected_output: >
+    A compact summary containing:
+    - Processing statistics (total images, successful extractions, failed extractions)
+    - File paths to the generated outputs (structured.json, structured.md, vision_extractions.json)
+    - Brief overview of extracted data
+    The tool returns summary metadata rather than full content to avoid context overflow.
+  agent: vision_extractor

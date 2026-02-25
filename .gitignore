@@ -1,0 +1,10 @@
+.env
+__pycache__/
+.DS_Store
+data_store/
+tests/
+.venv/
+incoming/
+test_dataset/
+uv.lock
+test_vision_extraction.py
